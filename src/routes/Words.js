@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Form from "./Form";
-import ListItem from "./ListItem";
-import Pagination from "./Pagination";
-import Top from "./Top";
+import Form from "../components/Form";
+import ListItem from "../components/ListItem";
+import Pagination from "../components/Pagination";
+import Top from "../components/Top";
 
 const Main = () => {
   const [data, setData] = useState([]);
@@ -16,7 +16,7 @@ const Main = () => {
   useEffect(() => {
     document.title = `Byul's Wordsbook`;
     axios
-      .get("/api/words")
+      .get("https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com")
       .then((res) => {
         setData(res.data);
       })
@@ -34,7 +34,7 @@ const Main = () => {
   };
 
   const handleDelete = async (id) => {
-    const result = await axios.post(`/api/words/delete/${id}`);
+    const result = await axios.delete(`https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com`);
     setData(result.data);
   };
 
@@ -47,20 +47,11 @@ const Main = () => {
         {data &&
           data.slice(offset, offset + limit).map((item) => (
             <div key={item.id} className="item-container">
-              <ListItem
-                item={item}
-                handleData={handleEditedData}
-                handleDelete={handleDelete}
-              />
+              <ListItem item={item} handleData={handleEditedData} handleDelete={handleDelete} />
             </div>
           ))}
       </div>
-      <Pagination
-        total={data.length}
-        limit={limit}
-        page={page}
-        setPage={setPage}
-      />
+      <Pagination total={data.length} limit={limit} page={page} setPage={setPage} />
     </main>
   );
 };

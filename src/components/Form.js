@@ -13,7 +13,7 @@ const Form = ({ handleData }) => {
       eng: eng.trim(),
       kor: kor.trim(),
     };
-    const result = await axios.post("/api/words", data, {
+    const result = await axios.post("https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com", data, {
       headers: {
         "Content-Type": "application/JSON",
       },
@@ -41,18 +41,10 @@ const Form = ({ handleData }) => {
           }}
           required
         />
-        <input
-          type="text"
-          placeholder="Korean"
-          value={kor}
-          onChange={(e) => setKor(e.target.value)}
-          required
-        />
+        <input type="text" placeholder="Korean" value={kor} onChange={(e) => setKor(e.target.value)} required />
         <button>Register</button>
       </form>
-      <div className="error-msg">
-        {error ? `* ${eng} is already registered` : " "}
-      </div>
+      <div className="error-msg">{error ? `* ${eng} is already registered` : " "}</div>
     </div>
   );
 };
