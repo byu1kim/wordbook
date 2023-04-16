@@ -6,6 +6,7 @@ const ListItem = ({ item }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [eng, setEng] = useState(item.eng);
   const [kor, setKor] = useState(item.kor);
+  const [check, setCheck] = useState(item.checked);
 
   const handleEdit = async (e) => {
     e.preventDefault();
@@ -22,20 +23,31 @@ const ListItem = ({ item }) => {
 
   const toggleWhite = (e) => {
     const element = e.target;
+
     element.classList.toggle("white");
+    console.log(item);
   };
 
   return (
     <div className="flex border-b p-1 text-sm">
       {!isEdit ? (
-        <div className="words w-full sm:flex">
-          <div className="eng w-full font-bold" onClick={toggleWhite}>
-            {item.eng}
+        <>
+          <button className="self-center w-10 h-6 mr-3" onClick={() => setCheck(!check)}>
+            {check ? (
+              <i className="fa-solid fa-check text-xs text-rose-300"></i>
+            ) : (
+              <i className="fa-solid fa-check text-xs text-gray-200"></i>
+            )}
+          </button>
+          <div className="words w-full sm:flex">
+            <div className="eng w-full font-bold" onClick={toggleWhite}>
+              {item.eng}
+            </div>
+            <div className="kor w-full" onClick={toggleWhite}>
+              {item.kor}
+            </div>
           </div>
-          <div className="kor w-full" onClick={toggleWhite}>
-            {item.kor}
-          </div>
-        </div>
+        </>
       ) : (
         <form onSubmit={handleEdit} className="word w-full gap-2 mr-2 sm:flex">
           <input
