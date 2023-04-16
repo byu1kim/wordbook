@@ -1,23 +1,25 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { signIn } from "../cognito";
+import { useNavigate } from "react-router-dom";
+import { confirmUser } from "../cognito";
 
-const Login = () => {
+export default function Confirm() {
   const navigate = useNavigate();
+  const queryParams = new URLSearchParams(window.location.search);
+  const query = queryParams.get("username");
 
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [error, setError] = useState("");
+  const [code, setCode] = useState("");
+  const [username, setUsername] = useState(query ? query : "");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signIn({ username, password });
-      navigate("/profile");
+      await confirmUser({ username, code });
+      navigate("/login");
     } catch (e) {
-      setError(e.message);
+      console.log(e);
     }
   };
+
   return (
     <form onSubmit={handleSubmit} className="p-5 flex flex-col mx-auto max-w-xl bg-gray-200">
       <label htmlFor="username">Username</label>
@@ -31,23 +33,19 @@ const Login = () => {
         required
       />
 
-      <label htmlFor="password">Passsword</label>
+      <label htmlFor="code">code</label>
       <input
-        type="password"
-        name="password"
-        value={password}
+        type="text"
+        name="code"
+        value={code}
         onChange={(e) => {
-          setPassword(e.target.value);
+          setCode(e.target.value);
         }}
         required
       />
-      <p className="text-red-500">{!!error && error}</p>
-      <Link to="/forget">Forgot password?</Link>
       <button type="submit" className="bg-rose-200 w-40 m-3 mx-auto hover:cursor-pointer hover:bg-rose-400">
         Submit
       </button>
     </form>
   );
-};
-
-export default Login;
+}

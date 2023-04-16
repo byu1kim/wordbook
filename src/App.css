@@ -1,24 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.borders {
+  @apply border-2 border-red-500;
+}
+
+.center {
+  @apply flex flex-col justify-center items-center;
+}
+
 * {
   padding: 0;
   margin: 0;
-  background-color: white;
-  color: black;
   box-sizing: border-box;
+}
+
+html {
   font-family: "Nanum Gothic", sans-serif;
 }
 
-header {
-  padding: 10px;
-  background-color: pink;
+nav div {
+  font-family: "Permanent Marker", cursive;
+}
+
+title {
+  font-family: "Permanent Marker", cursive;
 }
 
 main {
-  padding: 20px;
-}
-
-footer {
-  padding: 10px;
-  background-color: pink;
 }
 
 /* Form */

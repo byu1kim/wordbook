@@ -1,7 +1,8 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState, useContext } from "react";
+import { GlobalContext } from "../components/Context";
 
-const ListItem = ({ item, handleData, handleDelete }) => {
+const ListItem = ({ item }) => {
+  const { editWord, deleteWord } = useContext(GlobalContext);
   const [isEdit, setIsEdit] = useState(false);
   const [eng, setEng] = useState(item.eng);
   const [kor, setKor] = useState(item.kor);
@@ -10,17 +11,12 @@ const ListItem = ({ item, handleData, handleDelete }) => {
     e.preventDefault();
 
     const data = {
-      id: item.id,
+      wordId: item.id,
       eng: eng.trim(),
       kor: kor.trim(),
     };
-    const result = await axios.post(`/api/words/edit/${item.id}`, data, {
-      headers: {
-        "Content-Type": "application/JSON",
-      },
-    });
 
-    handleData(result.data);
+    editWord(data);
     setIsEdit(false);
   };
 
@@ -59,20 +55,16 @@ const ListItem = ({ item, handleData, handleDelete }) => {
             }}
           ></input>
           <button>
-            <i class="fa-solid fa-check"></i>
+            <i className="fa-solid fa-check"></i>
           </button>
         </form>
       )}
       <div className="btns">
         <button>
-          <a
-            href={`https://en.dict.naver.com/#/search?range=all&query=${item.eng}`}
-          >
-            Dic
-          </a>
+          <a href={`https://en.dict.naver.com/#/search?range=all&query=${item.eng}`}>Dic</a>
         </button>
         <button onClick={() => setIsEdit(true)}>Edit</button>
-        <button onClick={() => handleDelete(item.id)}>Del</button>
+        <button onClick={() => deleteWord(item.id)}>Del</button>
       </div>
     </div>
   );
@@ -80,8 +72,6 @@ const ListItem = ({ item, handleData, handleDelete }) => {
 
 ListItem.defaultProps = {
   item: [],
-  handleData: [],
-  handleDelete: 0,
 };
 
 export default ListItem;

@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { GlobalContext } from "../components/Context";
 
-const Top = ({ data }) => {
+const Top = () => {
+  const { data } = useContext(GlobalContext);
   const [hideEng, setHideEng] = useState(false);
   const [hideKor, setHideKor] = useState(false);
+
   const showHide = (lan) => {
     const english = document.getElementsByClassName("eng");
     const korean = document.getElementsByClassName("kor");
@@ -18,6 +21,7 @@ const Top = ({ data }) => {
       }
     }
   };
+
   return (
     <>
       <div className="top">
@@ -41,7 +45,7 @@ const Top = ({ data }) => {
             </div>
           )}
         </div>
-        <div className="data">Total : {data}</div>
+        <div className="data">Total : {data && data.length}</div>
       </div>
     </>
   );

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState, useContext } from "react";
 import Form from "../components/Form";
 import ListItem from "../components/ListItem";
 import Pagination from "../components/Pagination";
 import Top from "../components/Top";
+import { GlobalContext } from "../components/Context";
 
-const Main = () => {
-  const [data, setData] = useState([]);
+export default function Words() {
+  const { handleGetWords, data } = useContext(GlobalContext);
 
   // Pagination, 200 words per page
   const [page, setPage] = useState(1);
@@ -15,45 +15,23 @@ const Main = () => {
 
   useEffect(() => {
     document.title = `Byul's Wordsbook`;
-    axios
-      .get("https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com")
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    handleGetWords();
   }, []);
-
-  const handleAddedData = (newData) => {
-    setData([newData, ...data]);
-  };
-
-  const handleEditedData = (newData) => {
-    setData(newData);
-  };
-
-  const handleDelete = async (id) => {
-    const result = await axios.delete(`https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com`);
-    setData(result.data);
-  };
 
   return (
     <main>
-      <Form handleData={handleAddedData} />
-      <Top data={data.length} />
+      <Form />
 
+      <Top />
       <div className="list">
         {data &&
           data.slice(offset, offset + limit).map((item) => (
             <div key={item.id} className="item-container">
-              <ListItem item={item} handleData={handleEditedData} handleDelete={handleDelete} />
+              <ListItem item={item} />
             </div>
           ))}
       </div>
-      <Pagination total={data.length} limit={limit} page={page} setPage={setPage} />
+      <Pagination total={data && data.length} limit={limit} page={page} setPage={setPage} />
     </main>
   );
-};
-
-export default Main;
+}
