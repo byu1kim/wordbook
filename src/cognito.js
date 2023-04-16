@@ -67,11 +67,15 @@ the signUp function from the userPool object.
 @returns {Promise} - A Promise that resolves to the signUp result object.
 */
 export async function signUp({ username, email, password }) {
-  const attributeList = [new CognitoUserAttribute({ Name: "email", Value: email })];
+  try {
+    const attributeList = [new CognitoUserAttribute({ Name: "email", Value: email })];
 
-  const cognitoSignUp = promisify(userPool.signUp).bind(userPool);
-  const result = await cognitoSignUp(username, password, attributeList, null);
-  return result;
+    const cognitoSignUp = promisify(userPool.signUp).bind(userPool);
+    const result = await cognitoSignUp(username, password, attributeList, null);
+    return result;
+  } catch (e) {
+    throw e;
+  }
 }
 
 /**

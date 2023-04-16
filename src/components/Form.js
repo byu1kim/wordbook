@@ -21,8 +21,8 @@ export default function Form() {
   };
 
   return (
-    <div className="form">
-      <form onSubmit={handleForm}>
+    <div className=" ">
+      <form onSubmit={handleForm} className="bg-gray-200 p-2 flex gap-2 ">
         <input
           type="text"
           placeholder="English"
@@ -31,10 +31,18 @@ export default function Form() {
             setError(false);
             setEng(e.target.value);
           }}
+          className="w-full p-2 border-2 active:border-rose-300 active:outline-none focus:border-rose-300 focus:outline-none"
           required
         />
-        <input type="text" placeholder="Korean" value={kor} onChange={(e) => setKor(e.target.value)} required />
-        <button>Register</button>
+        <input
+          type="text"
+          placeholder="Korean"
+          value={kor}
+          onChange={(e) => setKor(e.target.value)}
+          className="w-full p-2 border-2 active:border-rose-300 active:outline-none focus:border-rose-300 focus:outline-none"
+          required
+        />
+        <button className="bg-rose-300 px-3 text-white font-bold hover:bg-rose-400">Register</button>
       </form>
       <div className="error-msg">{error ? `${error}` : " "}</div>
     </div>

@@ -26,20 +26,20 @@ const ListItem = ({ item }) => {
   };
 
   return (
-    <div className="list-item" key={item.id}>
+    <div className="flex border-b p-1 text-sm">
       {!isEdit ? (
-        <div className="words">
-          <div className="eng" onClick={toggleWhite}>
+        <div className="words w-full sm:flex">
+          <div className="eng w-full font-bold" onClick={toggleWhite}>
             {item.eng}
           </div>
-          <div className="kor" onClick={toggleWhite}>
+          <div className="kor w-full" onClick={toggleWhite}>
             {item.kor}
           </div>
         </div>
       ) : (
-        <form onSubmit={handleEdit} className="words">
+        <form onSubmit={handleEdit} className="word w-full gap-2 mr-2 sm:flex">
           <input
-            className="eng"
+            className="eng w-full font-bold border p-1"
             type="text"
             value={eng}
             onChange={(e) => {
@@ -47,24 +47,28 @@ const ListItem = ({ item }) => {
             }}
           ></input>
           <input
-            className="kor"
+            className="kor w-full border p-1"
             type="text"
             value={kor}
             onChange={(e) => {
               setKor(e.target.value);
             }}
           ></input>
-          <button>
+          <button className="bg-rose-300 text-white hover:bg-rose-400 px-2">
             <i className="fa-solid fa-check"></i>
           </button>
         </form>
       )}
-      <div className="btns">
-        <button>
+      <div className="flex gap-3">
+        <button className="btn text-rose-300">
           <a href={`https://en.dict.naver.com/#/search?range=all&query=${item.eng}`}>Dic</a>
         </button>
-        <button onClick={() => setIsEdit(true)}>Edit</button>
-        <button onClick={() => deleteWord(item.id)}>Del</button>
+        <button className="btn text-gray-400" onClick={() => setIsEdit(true)}>
+          Edit
+        </button>
+        <button className="btn text-gray-400" onClick={() => deleteWord(item.id)}>
+          Del
+        </button>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { signIn } from "../cognito";
 
-const Login = () => {
+export default function Login() {
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
@@ -18,36 +18,61 @@ const Login = () => {
       setError(e.message);
     }
   };
+
   return (
-    <form onSubmit={handleSubmit} className="p-5 flex flex-col mx-auto max-w-xl bg-gray-200">
-      <label htmlFor="username">Username</label>
-      <input
-        type="text"
-        name="username"
-        value={username}
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}
-        required
-      />
+    <main className="mx-auto max-w-xl">
+      <form onSubmit={handleSubmit} className="form">
+        <h1 className="fs-1 title">Login</h1>
+        <div className="field">
+          <label htmlFor="username" className="label">
+            Username
+          </label>
+          <input
+            type="text"
+            name="username"
+            value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            required
+            className="input"
+          />
+        </div>
 
-      <label htmlFor="password">Passsword</label>
-      <input
-        type="password"
-        name="password"
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-        required
-      />
-      <p className="text-red-500">{!!error && error}</p>
-      <Link to="/forget">Forgot password?</Link>
-      <button type="submit" className="bg-rose-200 w-40 m-3 mx-auto hover:cursor-pointer hover:bg-rose-400">
-        Submit
-      </button>
-    </form>
+        <div className="field">
+          <label htmlFor="password" className="label">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            className="input"
+            required
+          />
+        </div>
+
+        <p className="text-red-500">{!!error && error}</p>
+        <p className="text-center text-sm">
+          Forgot password?{" "}
+          <Link to="/forget" className="link">
+            Click here
+          </Link>
+        </p>
+        <p className="text-center text-sm">
+          Need to sign up?{" "}
+          <Link to="/signup" className="link">
+            Click here
+          </Link>
+        </p>
+
+        <button type="submit" className="mt-5 button">
+          Submit
+        </button>
+      </form>
+    </main>
   );
-};
-
-export default Login;
+}

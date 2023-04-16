@@ -21,13 +21,10 @@ A vocabulary list that I created to study English on my own
 
 [url](url)
 
-### Components
-
-- Entry : App.js
-- Structure : Header, Main, Footer
-- Main : Top, Form, ListItem
-
 # Todo
 
+- [ ] return value from post lambda : return getall(id)
 - [ ] redo : backend aws
+- [ ] profile
+- [ ] top (toggle)
 - [ ] search

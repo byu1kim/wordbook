@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as cognito from "../cognito";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ export default function Signup() {
 
         // Create user information in Database
         // Retry with Axios
-        const result = await fetch("https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com/user", {
+        await fetch("https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com/user", {
           method: "POST",
           body: JSON.stringify({
             userId: user.userSub,
@@ -39,34 +39,68 @@ export default function Signup() {
         }).then((res) => res.json());
         navigate(`/confirm?username=${username}`);
       } catch (e) {
-        setError(e);
+        setError(e.message);
       }
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSignup} className="border-red-500 border-2 flex flex-col">
-        <label htmlFor="fname">fName</label>
-        <input name="fname" type="text" onChange={(e) => setFname(e.target.value)} className="border" />
+    <main className="mx-auto max-w-xl">
+      <form onSubmit={handleSignup} className="form">
+        <h1 className="title fs-1">Sign up</h1>
+        <div className="field">
+          <label htmlFor="fname" className="label">
+            First Name
+          </label>
+          <input name="fname" type="text" onChange={(e) => setFname(e.target.value)} className="input" />
+        </div>
 
-        <label htmlFor="lname">lName</label>
-        <input name="lname" type="text" onChange={(e) => setLname(e.target.value)} className="border" />
+        <div className="field">
+          <label htmlFor="lname" className="label">
+            Last Name
+          </label>
+          <input name="lname" type="text" onChange={(e) => setLname(e.target.value)} className="input" />
+        </div>
 
-        <label htmlFor="email">Email</label>
-        <input name="email" type="text" onChange={(e) => setEmail(e.target.value)} className="border" />
+        <div className="field">
+          <label htmlFor="email" className="label">
+            Email Address
+          </label>
+          <input name="email" type="text" onChange={(e) => setEmail(e.target.value)} className="input" />
+        </div>
 
-        <label htmlFor="username">Username</label>
-        <input name="username" type="text" onChange={(e) => setUsername(e.target.value)} className="border" />
+        <div className="field">
+          <label htmlFor="username" className="label">
+            Username
+          </label>
+          <input name="username" type="text" onChange={(e) => setUsername(e.target.value)} className="input" />
+        </div>
 
-        <label htmlFor="password">Password</label>
-        <input name="password" type="password" onChange={(e) => setPassword(e.target.value)} className="border" />
+        <div className="field">
+          <label htmlFor="password" className="label">
+            Password
+          </label>
+          <input name="password" type="password" onChange={(e) => setPassword(e.target.value)} className="input" />
+        </div>
 
-        <label htmlFor="password2">Password Confirmation</label>
-        <input name="password2" type="password" onChange={(e) => setPassword2(e.target.value)} className="border" />
-        <button>Submit</button>
+        <div className="field">
+          <label htmlFor="password2" className="label">
+            Password Confirmation
+          </label>
+          <input name="password2" type="password" onChange={(e) => setPassword2(e.target.value)} className="input" />
+        </div>
+
+        <p className="text-red-500">{!!error && error}</p>
+
+        <p className="text-center text-sm m-2">
+          Need to login?
+          <Link to="/login" className="link">
+            Click here
+          </Link>
+        </p>
+
+        <button className="button">Submit</button>
       </form>
-      <div>{error}</div>
-    </div>
+    </main>
   );
 }

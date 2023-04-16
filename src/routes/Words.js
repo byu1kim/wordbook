@@ -16,17 +16,17 @@ export default function Words() {
   useEffect(() => {
     document.title = `Byul's Wordsbook`;
     handleGetWords();
-  }, []);
+  });
 
   return (
-    <main>
+    <main className="p-5">
       <Form />
 
       <Top />
-      <div className="list">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {data &&
-          data.slice(offset, offset + limit).map((item) => (
-            <div key={item.id} className="item-container">
+          data.slice(offset, offset + limit).map((item, index) => (
+            <div key={index}>
               <ListItem item={item} />
             </div>
           ))}
