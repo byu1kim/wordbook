@@ -1,12 +1,12 @@
 # Wordbook
 
-A vocabulary list that I created to study English on my own
+A custom vocabulary list for whoever needs to study English
 
 ## Technologies
 
 - AWS API Gateway
 - AWS Lambda function
-- Cockroch DB
+- Cockroch DB (PostgreSQL)
 - Frontend : React
 
 ## Features
@@ -15,16 +15,19 @@ A vocabulary list that I created to study English on my own
 - Add English and its meaning
 - Check if memorized
 - Prevent saving duplicated words
-- [ ] search words
 
 ## Deployed website
 
-[url](url)
+[https://byul-wordbook.netlify.app/](https://byul-wordbook.netlify.app/)
 
 # Todo
 
 - [ ] return value from post lambda : return getall(id)
 - [ ] redo : backend aws
-- [ ] profile
-- [ ] top (toggle)
+- [ ] hide english/kor
 - [ ] search
+- [x] stable cognito
+- [ ] flash card
+
+- [ ] profile : edit name
+- [ ] profile : change password

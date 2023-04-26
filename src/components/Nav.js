@@ -5,15 +5,17 @@ import { GlobalContext } from "../components/Context";
 import * as cognito from "../cognito";
 
 export default function Nav() {
-  const { user } = useContext(GlobalContext);
+  const { user, setUser } = useContext(GlobalContext);
   const [isOpen, setIsOpen] = useState();
 
   const navigate = useNavigate();
 
   async function handleLogout() {
     console.log("CLick!");
-    navigate("/");
     cognito.signOut();
+    setUser();
+    setIsOpen(false);
+    navigate("/");
   }
 
   const showHideNav = () => {
@@ -23,7 +25,9 @@ export default function Nav() {
   return (
     <header className="relative text-rose-300 z-20">
       <nav className="px-5 py-3 flex justify-between">
-        <div className="text-2xl">Wordbook</div>
+        <Link to="/" className="text-2xl logo">
+          Wordbook
+        </Link>
         <button onClick={showHideNav}>
           <i className="fa-solid fa-bars"></i>
         </button>
@@ -36,19 +40,19 @@ export default function Nav() {
               </button>
               {user && <li className="font-bold px-4 py-3">Hello, {user.username}!</li>}
 
-              <li className="px-4 py-3 hover:bg-white/20">
+              <li className="px-4 py-3 hover:bg-white/20" onClick={() => setIsOpen(false)}>
                 <Link to="/" className="block w-full">
                   <i className="fa-solid fa-house mr-2"></i>Home
                 </Link>
               </li>
               {user ? (
                 <>
-                  <li className="px-4 py-3 hover:bg-white/20">
+                  <li className="px-4 py-3 hover:bg-white/20" onClick={() => setIsOpen(false)}>
                     <Link to="/words" className="block w-full">
                       <i className="fa-solid fa-book-open mr-2"></i>Words
                     </Link>
                   </li>
-                  <li className="px-4 py-3 hover:bg-white/20">
+                  <li className="px-4 py-3 hover:bg-white/20" onClick={() => setIsOpen(false)}>
                     <Link to="/profile" className="block w-full">
                       <i className="fa-solid fa-user mr-2"></i>Profile
                     </Link>
@@ -59,12 +63,12 @@ export default function Nav() {
                 </>
               ) : (
                 <>
-                  <li className="px-4 py-3 hover:bg-white/20">
+                  <li className="px-4 py-3 hover:bg-white/20" onClick={() => setIsOpen(false)}>
                     <Link to="/signup" className="block w-full">
-                      <i class="fa-solid fa-user-plus mr-2"></i> Signup
+                      <i className="fa-solid fa-user-plus mr-2"></i> Signup
                     </Link>
                   </li>
-                  <li className="px-4 py-3 hover:bg-white/20">
+                  <li className="px-4 py-3 hover:bg-white/20" onClick={() => setIsOpen(false)}>
                     <Link to="/login" className="block w-full">
                       <i className="fa-solid fa-right-to-bracket mr-2"></i>Login
                     </Link>

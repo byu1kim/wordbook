@@ -10,7 +10,7 @@ import NotFound from "./routes/NotFound";
 import Footer from "./components/Footer";
 import ScrollTop from "./components/ScrollTop";
 import Nav from "./components/Nav";
-import Protected from "./components/Protected";
+import { Private, Public } from "./components/Protected";
 
 import "./App.css";
 
@@ -20,24 +20,53 @@ export default function App() {
       <ScrollTop />
       <Nav />
       <Routes>
-        <Route path="/" exact element={<Home />}></Route>
+        <Route
+          path="/"
+          exact
+          element={
+            <Public>
+              <Home />
+            </Public>
+          }
+        ></Route>
         <Route
           path="/words"
           element={
-            <Protected>
+            <Private>
               <Words />
-            </Protected>
+            </Private>
           }
         ></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/confirm" element={<Confirm />}></Route>
+        <Route
+          path="/login"
+          element={
+            <Public>
+              <Login />
+            </Public>
+          }
+        ></Route>
+        <Route
+          path="/signup"
+          element={
+            <Public>
+              <Signup />
+            </Public>
+          }
+        ></Route>
+        <Route
+          path="/confirm"
+          element={
+            <Public>
+              <Confirm />
+            </Public>
+          }
+        ></Route>
         <Route
           path="/Profile"
           element={
-            <Protected>
+            <Private>
               <Profile />
-            </Protected>
+            </Private>
           }
         ></Route>
         <Route path="*" element={<NotFound />}></Route>

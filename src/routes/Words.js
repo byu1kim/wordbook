@@ -16,7 +16,7 @@ export default function Words() {
   useEffect(() => {
     document.title = `Byul's Wordsbook`;
     handleGetWords();
-  });
+  }, []);
 
   return (
     <main className="p-5">
@@ -24,12 +24,13 @@ export default function Words() {
 
       <Top />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        {data &&
-          data.slice(offset, offset + limit).map((item, index) => (
-            <div key={index}>
-              <ListItem item={item} />
-            </div>
-          ))}
+        {data
+          ? data.slice(offset, offset + limit).map((item, index) => (
+              <div key={index}>
+                <ListItem item={item} />
+              </div>
+            ))
+          : "Loading"}
       </div>
       <Pagination total={data && data.length} limit={limit} page={page} setPage={setPage} />
     </main>

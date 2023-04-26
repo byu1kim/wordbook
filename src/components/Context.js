@@ -67,7 +67,7 @@ export function GlobalProvider({ children }) {
     }
   };
 
-  // PUT
+  // PUT : Edit word
   const editWord = async (newData) => {
     try {
       // Get token
@@ -94,7 +94,7 @@ export function GlobalProvider({ children }) {
     }
   };
 
-  // DELETE
+  // DELETE : Delete word
   const deleteWord = async (id) => {
     const token = await cognito.getAccessToken();
 
@@ -131,6 +131,8 @@ export function GlobalProvider({ children }) {
         editWord,
         deleteWord,
         user,
+        setUser,
+        getUser,
       }}
     >
       {children}
