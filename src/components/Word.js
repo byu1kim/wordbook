@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { GlobalContext } from "../components/Context";
+import { GlobalContext } from "./Context";
 
 const ListItem = ({ item }) => {
   const { editWord, deleteWord } = useContext(GlobalContext);
@@ -11,7 +11,9 @@ const ListItem = ({ item }) => {
   const handleEdit = async (e) => {
     e.preventDefault();
 
+    console.log("Edit : ", check);
     const data = {
+      checked: !check,
       wordId: item.id,
       eng: eng.trim(),
       kor: kor.trim(),
@@ -28,11 +30,17 @@ const ListItem = ({ item }) => {
     console.log(item);
   };
 
+  const handleCheck = (e) => {
+    console.log("Hey");
+    setCheck(!check);
+    handleEdit(e);
+  };
+
   return (
-    <div className="flex border-b p-1 text-sm">
+    <div className="flex border-b px-1 py-2 text-sm">
       {!isEdit ? (
         <>
-          <button className="self-center w-10 h-6 mr-3" onClick={() => setCheck(!check)}>
+          <button className="self-center w-10 h-6 mr-3" onClick={handleCheck}>
             {check ? (
               <i className="fa-solid fa-check text-xs text-rose-300"></i>
             ) : (
@@ -71,6 +79,8 @@ const ListItem = ({ item }) => {
           </button>
         </form>
       )}
+
+      {/* Buttons */}
       <div className="flex gap-3">
         <button className="btn text-rose-300">
           <a href={`https://en.dict.naver.com/#/search?range=all&query=${item.eng}`}>Dic</a>

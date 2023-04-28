@@ -22,9 +22,11 @@ A custom vocabulary list for whoever needs to study English
 
 # Todo
 
-- [ ] return value from post lambda : return getall(id)
+- [ ] return value from post lambda : return getall(id) (edit after add right away?)
 - [ ] redo : backend aws
+- [ ] remove unique contraints from words table, instead, add unique function for the unique id
 - [ ] hide english/kor
+- [ ] google login
 - [ ] search
 - [x] stable cognito
 - [ ] flash card

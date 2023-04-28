@@ -110,6 +110,12 @@ export function GlobalProvider({ children }) {
     setData(result);
   };
 
+  // Search
+  const searchWord = async (query) => {
+    console.log("Search Function: ", query);
+  };
+
+  // Get user profile
   async function getUser() {
     const loginUser = await cognito.getCurrentUser();
     setUser(loginUser);
@@ -130,6 +136,7 @@ export function GlobalProvider({ children }) {
         setError,
         editWord,
         deleteWord,
+        searchWord,
         user,
         setUser,
         getUser,

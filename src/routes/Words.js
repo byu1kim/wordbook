@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import Form from "../components/Form";
-import ListItem from "../components/ListItem";
+import Word from "../components/Word";
 import Pagination from "../components/Pagination";
 import Top from "../components/Top";
+import Search from "../components/Search";
 import { GlobalContext } from "../components/Context";
 
 export default function Words() {
@@ -23,11 +24,11 @@ export default function Words() {
       <Form />
 
       <Top />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {data
-          ? data.slice(offset, offset + limit).map((item, index) => (
+          ? data.slice(offset, offset + limit).map((word, index) => (
               <div key={index}>
-                <ListItem item={item} />
+                <Word item={word} />
               </div>
             ))
           : "Loading"}

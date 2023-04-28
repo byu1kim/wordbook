@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { GlobalContext } from "../components/Context";
+import Search from "./Search";
 
 const Top = () => {
   const { data } = useContext(GlobalContext);
@@ -25,6 +26,7 @@ const Top = () => {
   return (
     <>
       <div className="top">
+        <Search />
         <div className="toggle-btn">
           {!hideEng ? (
             <div className="hide" onClick={() => showHide("eng")}>
