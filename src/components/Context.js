@@ -6,6 +6,7 @@ export const GlobalContext = createContext();
 export function GlobalProvider({ children }) {
   const [darkMode, setDarkMode] = useState(false);
   const [data, setData] = useState();
+  const [filteredList, setFilteredList] = useState([]);
   const [error, setError] = useState();
   const [user, setUser] = useState();
 
@@ -110,11 +111,6 @@ export function GlobalProvider({ children }) {
     setData(result);
   };
 
-  // Search
-  const searchWord = async (query) => {
-    console.log("Search Function: ", query);
-  };
-
   // Get user profile
   async function getUser() {
     const loginUser = await cognito.getCurrentUser();
@@ -136,10 +132,11 @@ export function GlobalProvider({ children }) {
         setError,
         editWord,
         deleteWord,
-        searchWord,
         user,
         setUser,
         getUser,
+        filteredList,
+        setFilteredList,
       }}
     >
       {children}

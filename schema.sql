@@ -15,7 +15,7 @@ CREATE TABLE users (
 CREATE TABLE words (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     checked BOOL NOT NULL DEFAULT false,
-    eng TEXT NOT NULL UNIQUE,
+    eng TEXT NOT NULL,
     kor TEXT NOT NULL,
     created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     user_id UUID NOT NULL REFERENCES users (id) ON DELETE CASCADE

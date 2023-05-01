@@ -3,11 +3,10 @@ import Form from "../components/Form";
 import Word from "../components/Word";
 import Pagination from "../components/Pagination";
 import Top from "../components/Top";
-import Search from "../components/Search";
 import { GlobalContext } from "../components/Context";
 
 export default function Words() {
-  const { handleGetWords, data } = useContext(GlobalContext);
+  const { handleGetWords, filteredList } = useContext(GlobalContext);
 
   // Pagination, 200 words per page
   const [page, setPage] = useState(1);
@@ -25,15 +24,15 @@ export default function Words() {
 
       <Top />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-        {data
-          ? data.slice(offset, offset + limit).map((word, index) => (
+        {filteredList
+          ? filteredList.slice(offset, offset + limit).map((word, index) => (
               <div key={index}>
                 <Word item={word} />
               </div>
             ))
           : "Loading"}
       </div>
-      <Pagination total={data && data.length} limit={limit} page={page} setPage={setPage} />
+      <Pagination total={filteredList && filteredList.length} limit={limit} page={page} setPage={setPage} />
     </main>
   );
 }
