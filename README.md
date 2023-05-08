@@ -22,7 +22,6 @@ A custom vocabulary list for whoever needs to study English
 
 # Todo
 
-- [ ] react note : pagination, lazy loading, pagination
 - [ ] memorized or not
 - [ ] pagination design
 - [ ] optimize the number of requests (network tab)
@@ -34,3 +33,5 @@ A custom vocabulary list for whoever needs to study English
 
 - [ ] profile : edit name
 - [ ] profile : change password
+
+- [ ] scalable app : use MongoDB (to reduce data loading by users)

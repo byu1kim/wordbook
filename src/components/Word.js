@@ -38,6 +38,7 @@ export default function Word({ item }) {
   };
 
   const handleCheck = (e) => {
+    console.log("CHECK : ", check);
     handleEdit(e, !check);
   };
 

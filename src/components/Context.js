@@ -11,9 +11,11 @@ export function GlobalProvider({ children }) {
   const [user, setUser] = useState();
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(50);
   const [searchTerm, setSearchTerm] = useState("");
   const [total, setTotal] = useState();
+
+  const [isKnown, setIsKnown] = useState(false);
 
   const api = "https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com/word";
 
@@ -136,18 +138,20 @@ export function GlobalProvider({ children }) {
         error,
         setError,
 
+        isKnown,
+        setIsKnown,
+
         page,
         setPage,
         pageSize,
         setPageSize,
         searchTerm,
         setSearchTerm,
+        total,
 
         user,
         setUser,
         getUser,
-
-        total,
       }}
     >
       {children}

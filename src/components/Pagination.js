@@ -6,11 +6,7 @@ export default function Pagination() {
 
   const totalPages = Math.ceil(total / pageSize);
 
-  console.log("TotAL : ", total);
-  console.log("PAGEs: ", totalPages);
-
   const changePageSize = (e) => {
-    console.log("changeSize:", e.target.value);
     setPageSize(e.target.value);
   };
 
@@ -31,8 +27,10 @@ export default function Pagination() {
         BEGIN
       </button>
       <select onChange={changePageSize} className="borders">
-        <option value="5">5</option>
-        <option value="10">10</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="150">150</option>
+        <option value="200">200</option>
       </select>
     </div>
   );
