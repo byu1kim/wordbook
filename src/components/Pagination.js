@@ -1,62 +1,39 @@
-const Pagination = ({ total, limit, page, setPage }) => {
-  // Total number of pages
-  const numPages = Math.ceil(total / limit);
+import { useContext } from "react";
+import { GlobalContext } from "./Context";
 
+export default function Pagination() {
+  const { page, setPage, pageSize, setPageSize, total } = useContext(GlobalContext);
+
+  const totalPages = Math.ceil(total / pageSize);
+
+  console.log("TotAL : ", total);
+  console.log("PAGEs: ", totalPages);
+
+  const changePageSize = (e) => {
+    console.log("changeSize:", e.target.value);
+    setPageSize(e.target.value);
+  };
+
+  // need to add total pages
   return (
-    <>
-      <div className="pagination">
-        <button
-          className="arrow"
-          onClick={() => setPage(1)}
-          disabled={page === 1}
-        >
-          <i className="fa-solid fa-caret-left"></i>
-        </button>
-        <button
-          className="arrow"
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-        >
-          <i className="fa-solid fa-chevron-left"></i>
-        </button>
-        <div className="pages">
-          {Array(numPages)
-            .fill()
-            .map((_, i) => (
-              <button
-                className="page"
-                key={i + 1}
-                onClick={() => setPage(i + 1)}
-                aria-current={page === i + 1 ? "page" : null}
-              >
-                {i + 1}
-              </button>
-            ))}
-        </div>
-        <button
-          className="arrow"
-          onClick={() => setPage(page + 1)}
-          disabled={page === numPages}
-        >
-          <i className="fa-solid fa-chevron-right"></i>
-        </button>
-        <button
-          className="arrow"
-          onClick={() => setPage(numPages)}
-          disabled={page === numPages}
-        >
-          <i className="fa-solid fa-caret-right"></i>
-        </button>
-      </div>
-    </>
+    <div className="flex gap-2 justify-between">
+      <button onClick={() => setPage(1)} disabled={page === 1}>
+        START
+      </button>
+      <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+        Prev
+      </button>
+      {page} of {totalPages}
+      <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>
+        Next
+      </button>
+      <button onClick={() => setPage(totalPages)} disabled={page === totalPages}>
+        BEGIN
+      </button>
+      <select onChange={changePageSize} className="borders">
+        <option value="5">5</option>
+        <option value="10">10</option>
+      </select>
+    </div>
   );
-};
-
-Pagination.defaultProps = {
-  total: 0,
-  limit: 100,
-  page: 1,
-  setPage: 1,
-};
-
-export default Pagination;
+}

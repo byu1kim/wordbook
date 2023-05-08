@@ -1,45 +1,51 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { GlobalContext } from "./Context";
 
-const ListItem = ({ item }) => {
+export default function Word({ item }) {
   const { editWord, deleteWord } = useContext(GlobalContext);
+
   const [isEdit, setIsEdit] = useState(false);
   const [eng, setEng] = useState(item.eng);
   const [kor, setKor] = useState(item.kor);
   const [check, setCheck] = useState(item.checked);
 
-  const handleEdit = async (e) => {
+  useEffect(() => {
+    setEng(item.eng);
+    setKor(item.kor);
+    setCheck(item.checked);
+  }, [item]);
+
+  const handleEdit = async (e, checked = check) => {
     e.preventDefault();
 
-    console.log("Edit : ", check);
     const data = {
-      checked: !check,
+      checked: checked,
       wordId: item.id,
       eng: eng.trim(),
       kor: kor.trim(),
     };
 
-    editWord(data);
+    const result = await editWord(data);
+    setEng(result.eng);
+    setKor(result.kor);
+    setCheck(result.checked);
     setIsEdit(false);
   };
 
   const toggleWhite = (e) => {
     const element = e.target;
-
     element.classList.toggle("white");
-    console.log(item);
   };
 
   const handleCheck = (e) => {
-    console.log("Hey");
-    setCheck(!check);
-    handleEdit(e);
+    handleEdit(e, !check);
   };
 
   return (
     <div className="flex border-b px-1 py-2 text-sm">
       {!isEdit ? (
         <>
+          {/* Check */}
           <button className="self-center w-10 h-6 mr-3" onClick={handleCheck}>
             {check ? (
               <i className="fa-solid fa-check text-xs text-rose-300"></i>
@@ -47,32 +53,31 @@ const ListItem = ({ item }) => {
               <i className="fa-solid fa-check text-xs text-gray-200"></i>
             )}
           </button>
+
+          {/* Words */}
           <div className="words w-full sm:flex">
             <div className="eng w-full font-bold" onClick={toggleWhite}>
-              {item.eng}
+              {eng}
             </div>
             <div className="kor w-full" onClick={toggleWhite}>
-              {item.kor}
+              {kor}
             </div>
           </div>
         </>
       ) : (
+        // Edit
         <form onSubmit={handleEdit} className="word w-full gap-2 mr-2 sm:flex">
           <input
             className="eng w-full font-bold border p-1"
             type="text"
             value={eng}
-            onChange={(e) => {
-              setEng(e.target.value);
-            }}
+            onChange={(e) => setEng(e.target.value)}
           ></input>
           <input
             className="kor w-full border p-1"
             type="text"
             value={kor}
-            onChange={(e) => {
-              setKor(e.target.value);
-            }}
+            onChange={(e) => setKor(e.target.value)}
           ></input>
           <button className="bg-rose-300 text-white hover:bg-rose-400 px-2">
             <i className="fa-solid fa-check"></i>
@@ -94,10 +99,8 @@ const ListItem = ({ item }) => {
       </div>
     </div>
   );
-};
+}
 
-ListItem.defaultProps = {
+Word.defaultProps = {
   item: [],
 };
-
-export default ListItem;

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useState, useEffect } from "react";
 import * as cognito from "../cognito";
 
@@ -6,9 +7,20 @@ export const GlobalContext = createContext();
 export function GlobalProvider({ children }) {
   const [darkMode, setDarkMode] = useState(false);
   const [data, setData] = useState();
-  const [filteredList, setFilteredList] = useState([]);
   const [error, setError] = useState();
   const [user, setUser] = useState();
+
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(2);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [total, setTotal] = useState();
+
+  const api = "https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com/word";
+
+  useEffect(() => {
+    getUser();
+    getWords();
+  }, [darkMode, page, searchTerm, pageSize]);
 
   const clickDarkMode = (e) => {
     if (document.documentElement.classList.contains("dark")) {
@@ -23,91 +35,82 @@ export function GlobalProvider({ children }) {
   };
 
   // Get all words from DB
-  const handleGetWords = async () => {
-    try {
-      const token = await cognito.getAccessToken();
+  const getWords = async () => {
+    const token = await cognito.getAccessToken();
 
-      const result = await fetch("https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com/word", {
-        method: "GET",
+    await axios
+      .get(api, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: token,
         },
-      }).then((res) => res.json());
-
-      setData(result);
-    } catch (err) {
-      setError(err);
-    }
+        params: {
+          page: page,
+          pageSize: pageSize,
+          searchTerm: searchTerm,
+        },
+      })
+      .then((res) => {
+        setData(res.data);
+        setTotal(res.data.length);
+      })
+      .catch((e) => console.log("Error during getting data: ", e));
   };
 
-  // Post word to DB
+  // Add word to DB
   const addWord = async (newData) => {
-    try {
-      // Get token
-      const token = await cognito.getAccessToken();
+    // Validate
+    const duplicated = data && data.filter((item) => item.eng === newData.eng);
+    if (duplicated.length > 0) {
+      setError(`${newData.eng} is already registered`);
+    }
 
-      // Save to DB
-      const result = await fetch("https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com/word", {
-        method: "POST",
-        body: JSON.stringify(newData),
+    // Add word to db
+    const token = await cognito.getAccessToken();
+
+    await axios
+      .post(api, newData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
         },
-      }).then((res) => res.json());
-
-      // Set Data if successfully saved or set the error message
-      if (result.rowCount) {
-        setData([newData, ...data]);
-      } else {
-        setError(result.detail);
-      }
-    } catch (err) {
-      setError(err);
-    }
+      })
+      .then((res) => setData([res.data, ...data]))
+      .catch((err) => setError(err));
   };
 
-  // PUT : Edit word
+  // Edit word
   const editWord = async (newData) => {
-    try {
-      // Get token
-      const token = await cognito.getAccessToken();
+    // Get token
+    const token = await cognito.getAccessToken();
 
-      // Save to DB
-      const result = await fetch("https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com/word", {
-        method: "PUT",
-        body: JSON.stringify(newData),
+    // Save to DB
+    const result = await axios
+      .put(api, newData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
         },
-      }).then((res) => res.json());
+      })
+      .then((res) => res.data)
+      .catch((err) => setError(err));
 
-      // Error handle
-      if (result.name === "error") {
-        setError(result.detail);
-      } else {
-        setData(result);
-      }
-    } catch (err) {
-      setError(err);
-    }
+    return result;
   };
 
   // DELETE : Delete word
   const deleteWord = async (id) => {
     const token = await cognito.getAccessToken();
 
-    const result = await fetch("https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com/word", {
+    const result = await fetch(api, {
       method: "DELETE",
-      body: JSON.stringify({ wordId: id }),
+      body: JSON.stringify({ wordId: id, page, pageSize, searchTerm }),
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
     }).then((res) => res.json());
 
+    console.log("REST:", result);
     setData(result);
   };
 
@@ -117,26 +120,34 @@ export function GlobalProvider({ children }) {
     setUser(loginUser);
   }
 
-  useEffect(() => {
-    getUser();
-  }, [darkMode]);
   return (
     <GlobalContext.Provider
       value={{
         darkMode,
         clickDarkMode,
+
+        getWords,
         addWord,
-        handleGetWords,
-        data,
-        error,
-        setError,
         editWord,
         deleteWord,
+
+        data,
+        setData,
+        error,
+        setError,
+
+        page,
+        setPage,
+        pageSize,
+        setPageSize,
+        searchTerm,
+        setSearchTerm,
+
         user,
         setUser,
         getUser,
-        filteredList,
-        setFilteredList,
+
+        total,
       }}
     >
       {children}

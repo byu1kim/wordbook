@@ -22,14 +22,14 @@ A custom vocabulary list for whoever needs to study English
 
 # Todo
 
-- [ ] return value from post lambda : return getall(id) (edit after add right away?)
-- [ ] redo : backend aws
-- [ ] remove unique contraints from words table, instead, add unique function for the unique id
-- [ ] useTable ? : sort, filter whether checked==t or not
+- [ ] react note : pagination, lazy loading, pagination
+- [ ] memorized or not
+- [ ] pagination design
+- [ ] optimize the number of requests (network tab)
+
 - [ ] hide english/kor
 - [ ] google login
-- [ ] search
-- [x] stable cognito
+
 - [ ] flash card
 
 - [ ] profile : edit name

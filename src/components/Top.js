@@ -3,7 +3,7 @@ import { GlobalContext } from "../components/Context";
 import Search from "./Search";
 
 const Top = () => {
-  const { filteredList } = useContext(GlobalContext);
+  const { data } = useContext(GlobalContext);
   const [hideEng, setHideEng] = useState(false);
   const [hideKor, setHideKor] = useState(false);
 
@@ -47,7 +47,8 @@ const Top = () => {
             </div>
           )}
         </div>
-        <div className="data">Total : {filteredList && filteredList.length}</div>
+
+        <div className="data">Total : {data && data.length}</div>
       </div>
     </>
   );

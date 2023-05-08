@@ -6,6 +6,8 @@ export default function Form() {
   const [eng, setEng] = useState("");
   const [kor, setKor] = useState("");
 
+  // add > edit > delete
+
   const handleForm = async (e) => {
     e.preventDefault();
 
@@ -36,7 +38,7 @@ export default function Form() {
         />
         <input
           type="text"
-          placeholder="Korean"
+          placeholder="Meaning"
           value={kor}
           onChange={(e) => setKor(e.target.value)}
           className="w-full p-2 border-2 active:border-rose-300 active:outline-none focus:border-rose-300 focus:outline-none"

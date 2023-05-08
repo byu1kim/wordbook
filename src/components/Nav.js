@@ -11,7 +11,6 @@ export default function Nav() {
   const navigate = useNavigate();
 
   async function handleLogout() {
-    console.log("CLick!");
     cognito.signOut();
     setUser();
     setIsOpen(false);

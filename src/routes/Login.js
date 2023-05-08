@@ -16,7 +16,7 @@ export default function Login() {
     try {
       await signIn({ username, password });
       getUser();
-      navigate("/profile");
+      navigate("/words");
     } catch (e) {
       setError(e.message);
     }
