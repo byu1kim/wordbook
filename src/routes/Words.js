@@ -1,12 +1,13 @@
 import React, { useEffect, useContext } from "react";
 import Form from "../components/Form";
+import Loader from "../components/Loader";
 import Word from "../components/Word";
 import Pagination from "../components/Pagination";
 import Top from "../components/Top";
 import { GlobalContext } from "../components/Context";
 
 export default function Words() {
-  const { data } = useContext(GlobalContext);
+  const { data, loading } = useContext(GlobalContext);
 
   useEffect(() => {
     document.title = `Byul's Wordsbook`;
@@ -17,14 +18,15 @@ export default function Words() {
       <Form />
       <Top />
 
+      {loading && <Loader />}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-        {data
-          ? data.result.map((word, index) => (
-              <div key={index}>
-                <Word item={word} />
-              </div>
-            ))
-          : "Loading"}
+        {data &&
+          data.result.map((word, index) => (
+            <div key={index}>
+              <Word item={word} />
+            </div>
+          ))}
       </div>
       <Pagination />
     </main>

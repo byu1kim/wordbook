@@ -25,11 +25,11 @@ export default function Word({ item }) {
       kor: kor.trim(),
     };
 
-    const result = await editWord(data);
-    setEng(result.eng);
-    setKor(result.kor);
-    setCheck(result.checked);
+    setEng(eng);
+    setKor(kor);
     setIsEdit(false);
+
+    await editWord(data);
   };
 
   const toggleWhite = (e) => {
@@ -39,6 +39,7 @@ export default function Word({ item }) {
 
   const handleCheck = (e) => {
     console.log("CHECK : ", check);
+    setCheck(!check);
     handleEdit(e, !check);
   };
 

@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import { signIn } from "../cognito";
 import { GlobalContext } from "../components/Context";
 
@@ -16,7 +16,6 @@ export default function Login() {
     try {
       await signIn({ username, password });
       getUser();
-      navigate("/words");
     } catch (e) {
       setError(e.message);
     }

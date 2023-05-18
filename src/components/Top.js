@@ -3,13 +3,15 @@ import { GlobalContext } from "../components/Context";
 import Search from "./Search";
 
 const Top = () => {
-  const { data } = useContext(GlobalContext);
+  const { data, isKnown, setIsKnown, setPage } = useContext(GlobalContext);
   const [hideEng, setHideEng] = useState(false);
   const [hideKor, setHideKor] = useState(false);
+  const options = ["Unknown", "Known"];
 
   const showHide = (lan) => {
     const english = document.getElementsByClassName("eng");
     const korean = document.getElementsByClassName("kor");
+
     if (lan === "eng") {
       for (let i = 0; i < english.length; i++) {
         english[i].classList.toggle("white");
@@ -23,32 +25,51 @@ const Top = () => {
     }
   };
 
+  const handleChange = (e) => {
+    setPage(1);
+    if (e.target.value === "Unknown") {
+      setIsKnown("Unknown");
+    } else {
+      setIsKnown("Known");
+    }
+  };
+
   return (
     <>
-      <div className="top">
-        <Search />
-        <div className="toggle-btn">
+      <div className="flex flex-wrap text-sm justify-between gap-3 items-center mt-1 mb-2 sm:flex-nowrap">
+        <div className="w-full sm:w-fit">
+          <Search />
+        </div>
+        <div className="flex gap-3 text-gray-500 sm:w-full">
+          <select className="border px-1" value={isKnown} onChange={handleChange}>
+            {options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+
           {!hideEng ? (
-            <div className="hide" onClick={() => showHide("eng")}>
+            <div className="border p-1 hover:cursor-pointer" onClick={() => showHide("eng")}>
               Hide English
             </div>
           ) : (
-            <div className="show" onClick={() => showHide("eng")}>
+            <div className="border p-1 bg-rose-300 text-white hover:cursor-pointer" onClick={() => showHide("eng")}>
               Show English
             </div>
           )}
           {!hideKor ? (
-            <div className="hide" onClick={() => showHide("kor")}>
-              Hide Korean
+            <div className="border p-1 hover:cursor-pointer" onClick={() => showHide("kor")}>
+              Hide Meaning
             </div>
           ) : (
-            <div className="show" onClick={() => showHide("kor")}>
-              Show Korean
+            <div className="border p-1 bg-rose-300 text-white hover:cursor-pointer" onClick={() => showHide("kor")}>
+              Show Meaning
             </div>
           )}
         </div>
 
-        <div className="data">Total : {data && data.length}</div>
+        <div className="data sm:w-full sm:text-right">Total : {data && data.length}</div>
       </div>
     </>
   );

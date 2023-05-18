@@ -7,30 +7,37 @@ export const GlobalContext = createContext();
 export function GlobalProvider({ children }) {
   const [darkMode, setDarkMode] = useState(false);
   const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
   const [user, setUser] = useState();
+  const [isKnown, setIsKnown] = useState("Unknown");
 
+  // Pagination
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(50);
+  const [pageSize, setPageSize] = useState(100);
   const [searchTerm, setSearchTerm] = useState("");
-  const [total, setTotal] = useState();
-
-  const [isKnown, setIsKnown] = useState(false);
+  const [total, setTotal] = useState(1);
 
   const api = "https://lq6xow6ye6.execute-api.ca-central-1.amazonaws.com/word";
 
+  // Update whenever dependency array item changes
   useEffect(() => {
     getUser();
-    getWords();
-  }, [darkMode, page, searchTerm, pageSize]);
+  }, [darkMode, page, searchTerm, pageSize, isKnown]);
 
+  // Get user profile
+  async function getUser() {
+    const loginUser = await cognito.getCurrentUser();
+    setUser(loginUser);
+    getWords();
+  }
+
+  // Handle Light/Dark Mode
   const clickDarkMode = (e) => {
     if (document.documentElement.classList.contains("dark")) {
-      e.target.classList.add("rotate-180");
       document.documentElement.classList.remove("dark");
       setDarkMode(false);
     } else {
-      e.target.classList.remove("rotate-180");
       document.documentElement.classList.add("dark");
       setDarkMode(true);
     }
@@ -38,6 +45,7 @@ export function GlobalProvider({ children }) {
 
   // Get all words from DB
   const getWords = async () => {
+    setLoading(true);
     const token = await cognito.getAccessToken();
 
     await axios
@@ -49,21 +57,26 @@ export function GlobalProvider({ children }) {
           page: page,
           pageSize: pageSize,
           searchTerm: searchTerm,
+          isKnown: isKnown,
         },
       })
       .then((res) => {
         setData(res.data);
         setTotal(res.data.length);
       })
-      .catch((e) => console.log("Error during getting data: ", e));
+      .catch((e) => console.log("Error during getting data: ", e))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   // Add word to DB
   const addWord = async (newData) => {
     // Validate
-    const duplicated = data && data.filter((item) => item.eng === newData.eng);
+    const duplicated = data && data.result.filter((item) => item.eng === newData.eng);
     if (duplicated.length > 0) {
       setError(`${newData.eng} is already registered`);
+      return;
     }
 
     // Add word to db
@@ -76,7 +89,13 @@ export function GlobalProvider({ children }) {
           Authorization: token,
         },
       })
-      .then((res) => setData([res.data, ...data]))
+      .then((res) => {
+        if (isKnown) {
+          setIsKnown(false);
+        } else {
+          setData({ result: [res.data, ...data.result] });
+        }
+      })
       .catch((err) => setError(err));
   };
 
@@ -93,7 +112,7 @@ export function GlobalProvider({ children }) {
           Authorization: token,
         },
       })
-      .then((res) => res.data)
+      .then(() => {})
       .catch((err) => setError(err));
 
     return result;
@@ -101,26 +120,23 @@ export function GlobalProvider({ children }) {
 
   // DELETE : Delete word
   const deleteWord = async (id) => {
+    setLoading(true);
     const token = await cognito.getAccessToken();
 
     const result = await fetch(api, {
       method: "DELETE",
-      body: JSON.stringify({ wordId: id, page, pageSize, searchTerm }),
+      body: JSON.stringify({ wordId: id, page, pageSize, searchTerm, isKnown }),
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      .finally(() => setLoading(false));
 
-    console.log("REST:", result);
     setData(result);
+    setTotal(result.length);
   };
-
-  // Get user profile
-  async function getUser() {
-    const loginUser = await cognito.getCurrentUser();
-    setUser(loginUser);
-  }
 
   return (
     <GlobalContext.Provider
@@ -137,7 +153,8 @@ export function GlobalProvider({ children }) {
         setData,
         error,
         setError,
-
+        loading,
+        setLoading,
         isKnown,
         setIsKnown,
 
@@ -150,7 +167,6 @@ export function GlobalProvider({ children }) {
         total,
 
         user,
-        setUser,
         getUser,
       }}
     >

@@ -13,13 +13,15 @@
 .fs-1 {
   @apply text-3xl md:text-4xl lg:text-5xl;
 }
+
 .title {
   @apply text-rose-300 p-5 font-bold text-center;
 }
 
 .form {
-  @apply m-5 p-5 flex flex-col gap-3 shadow border rounded;
+  @apply m-5 p-5 flex flex-col gap-3;
 }
+
 .field {
   @apply relative;
 }
@@ -42,6 +44,10 @@
 
 .btn {
   @apply hover:text-rose-400;
+}
+
+.white {
+  @apply text-white;
 }
 
 * {
@@ -79,88 +85,4 @@ main {
   padding: 5px 20px;
   font-size: 0.8rem;
   color: red;
-}
-
-/* Top */
-
-.top {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  font-size: 0.8rem;
-}
-
-.toggle-btn {
-  display: flex;
-}
-
-.toggle-btn * {
-  margin-right: 10px;
-  padding: 5px;
-}
-
-.hide {
-  border: 1px solid lightgray;
-  color: lightgray;
-  cursor: pointer;
-}
-
-.show {
-  background-color: pink;
-  color: white;
-  cursor: pointer;
-}
-
-.data {
-  color: gray;
-}
-
-/* Pagination */
-.pagination {
-  display: flex;
-  padding: 20px 10px 0 10px;
-  justify-content: space-between;
-}
-
-.pagination button {
-  border: none;
-}
-
-.pages {
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.page:active,
-.page:focus {
-  color: pink;
-}
-
-.arrow {
-  border: 1px solid red;
-  background-color: pink;
-  padding: 2px 5px;
-  margin-right: 5px;
-}
-.arrow:last-child {
-  margin-right: none;
-}
-
-.arrow i {
-  background-color: pink;
-  color: white;
-}
-
-.arrow:disabled {
-  background-color: lightgray;
-}
-
-.arrow:disabled i {
-  background-color: lightgray;
-  color: white;
-}
-
-.white {
-  color: white;
 }

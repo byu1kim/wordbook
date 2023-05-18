@@ -2,19 +2,22 @@
 
 A custom vocabulary list for whoever needs to study English
 
-## Technologies
-
-- AWS API Gateway
-- AWS Lambda function
-- Cockroch DB (PostgreSQL)
-- Frontend : React
-
 ## Features
 
-- Authentication with Cognito
-- Add English and its meaning
-- Check if memorized
+- CRUD English word and its meaning
+- Search words
+- Hide/Show words
+- See Unknown and known words
 - Prevent saving duplicated words
+- Authentication with Amazon Cognito
+
+## Technologies
+
+- Frontend : React, HTML/CSS
+- Backend : AWS API Gateway, AWS Lambda
+- Database : CockroachDB
+- Deployment : Netlify
+- Framework : Tailwind
 
 ## Deployed website
 
@@ -22,16 +25,11 @@ A custom vocabulary list for whoever needs to study English
 
 # Todo
 
-- [ ] memorized or not
-- [ ] pagination design
-- [ ] optimize the number of requests (network tab)
-
 - [ ] hide english/kor
+
 - [ ] google login
 
 - [ ] flash card
 
 - [ ] profile : edit name
 - [ ] profile : change password
-
-- [ ] scalable app : use MongoDB (to reduce data loading by users)

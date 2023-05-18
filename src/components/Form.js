@@ -44,7 +44,7 @@ export default function Form() {
           className="w-full p-2 border-2 active:border-rose-300 active:outline-none focus:border-rose-300 focus:outline-none"
           required
         />
-        <button className="bg-rose-300 px-3 text-white font-bold hover:bg-rose-400">Register</button>
+        <button className="bg-rose-300 px-3 text-white font-bold hover:bg-rose-400 dark:bg-blue-300">Register</button>
       </form>
       <div className="error-msg">{error ? `${error}` : " "}</div>
     </div>
