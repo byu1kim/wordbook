@@ -167,6 +167,7 @@ export function GlobalProvider({ children }) {
         total,
 
         user,
+        setUser,
         getUser,
       }}
     >
