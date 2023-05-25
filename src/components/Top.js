@@ -3,10 +3,12 @@ import { GlobalContext } from "../components/Context";
 import Search from "./Search";
 
 const Top = () => {
-  const { data, isKnown, setIsKnown, setPage } = useContext(GlobalContext);
+  const { data, isKnown, setIsKnown, setPage, sort, setSort } = useContext(GlobalContext);
   const [hideEng, setHideEng] = useState(false);
   const [hideKor, setHideKor] = useState(false);
+
   const options = ["Unknown", "Known"];
+  const sorts = ["sort", "latest", "oldest", "a-z", "z-a"];
 
   const showHide = (lan) => {
     const english = document.getElementsByClassName("eng");
@@ -34,6 +36,11 @@ const Top = () => {
     }
   };
 
+  const handleSort = (e) => {
+    console.log(e.target.value);
+    setSort(e.target.value);
+  };
+
   return (
     <>
       <div className="flex flex-wrap text-sm justify-between gap-3 items-center mt-1 mb-2 sm:flex-nowrap">
@@ -43,6 +50,14 @@ const Top = () => {
         <div className="flex gap-3 text-gray-500 sm:w-full">
           <select className="border px-1" value={isKnown} onChange={handleChange}>
             {options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+
+          <select className="border px-1" value={sort} onChange={handleSort}>
+            {sorts.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>

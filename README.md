@@ -25,9 +25,12 @@ A custom vocabulary list for whoever needs to study English
 
 # Todo
 
-- [ ] total after adding
-- [ ] deploy : 400 error after refresh on prod
+- [x] total after adding
+- [x] deploy : 400 error after refresh on prod
 - [ ] hide english/kor
+- [ ] pagination : go up
+- [ ] duplicated words
+- [x] sort
 
 - [ ] google login
 

@@ -10,6 +10,7 @@ export function GlobalProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
   const [user, setUser] = useState();
+  const [sort, setSort] = useState("sort");
   const [isKnown, setIsKnown] = useState("Unknown");
 
   // Pagination
@@ -23,7 +24,7 @@ export function GlobalProvider({ children }) {
   // Update whenever dependency array item changes
   useEffect(() => {
     getUser();
-  }, [darkMode, page, searchTerm, pageSize, isKnown]);
+  }, [darkMode, page, searchTerm, pageSize, isKnown, sort]);
 
   // Get user profile
   async function getUser() {
@@ -58,6 +59,7 @@ export function GlobalProvider({ children }) {
           pageSize: pageSize,
           searchTerm: searchTerm,
           isKnown: isKnown,
+          sort: sort,
         },
       })
       .then((res) => {
@@ -157,6 +159,8 @@ export function GlobalProvider({ children }) {
         setLoading,
         isKnown,
         setIsKnown,
+        sort,
+        setSort,
 
         page,
         setPage,
