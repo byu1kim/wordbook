@@ -93,7 +93,7 @@ export function GlobalProvider({ children }) {
         if (isKnown) {
           setIsKnown(false);
         } else {
-          setData({ result: [res.data, ...data.result] });
+          setData({ result: [res.data, ...data.result], length: parseInt(data.length) + 1 });
         }
       })
       .catch((err) => setError(err));

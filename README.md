@@ -25,6 +25,8 @@ A custom vocabulary list for whoever needs to study English
 
 # Todo
 
+- [ ] total after adding
+- [ ] deploy : 400 error after refresh on prod
 - [ ] hide english/kor
 
 - [ ] google login

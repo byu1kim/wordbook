@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { GlobalContext } from "../components/Context";
 
 export default function Form() {
-  const { addWord, error, setError } = useContext(GlobalContext);
+  const { addWord, error, setError, total } = useContext(GlobalContext);
   const [eng, setEng] = useState("");
   const [kor, setKor] = useState("");
 
@@ -20,6 +20,8 @@ export default function Form() {
 
     setEng("");
     setKor("");
+
+    console.log(total);
   };
 
   return (
