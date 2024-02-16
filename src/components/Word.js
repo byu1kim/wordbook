@@ -91,7 +91,7 @@ export default function Word({ item }) {
               onChange={(e) => setKor(e.target.value)}
             ></input>
             <input
-              className="kor w-full border p-1"
+              className="kor w-full border p-1 text-gray-500"
               type="text"
               value={ex}
               onChange={(e) => setEx(e.target.value)}
