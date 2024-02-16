@@ -31,7 +31,7 @@ A custom vocabulary list for whoever needs to study English
 - [ ] pagination : go up
 - [ ] duplicated words
 - [x] sort
-
+- [ ] redirect issue after deleting
 - [ ] google login
 
 - [ ] flash card
