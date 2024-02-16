@@ -37,7 +37,6 @@ const Top = () => {
   };
 
   const handleSort = (e) => {
-    console.log(e.target.value);
     setSort(e.target.value);
   };
 

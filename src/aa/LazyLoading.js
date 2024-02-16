@@ -26,7 +26,6 @@ function LazyLoading() {
       setData(result);
     }
     fetchData();
-    console.log(data);
   }, [page]);
 
   return (
