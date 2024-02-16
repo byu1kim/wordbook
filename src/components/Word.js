@@ -20,12 +20,13 @@ export default function Word({ item }) {
   const handleEdit = async (e, checked = check) => {
     e.preventDefault();
 
+    console.log("1 2 3", eng, kor, ex);
     const data = {
       checked: checked,
       wordId: item.id,
       eng: eng.trim(),
       kor: kor.trim(),
-      ex: ex.trim(),
+      ex: ex != null ? ex.trim() : "",
     };
 
     setEng(eng);
